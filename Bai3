@@ -1,0 +1,51 @@
+from ._anvil_designer import Form1Template
+from anvil import *
+
+
+class Form1(Form1Template):
+  def __init__(self, **properties):
+    # Set Form properties and Data Bindings.
+    self.init_components(**properties)
+
+  def bubble_sort_with_steps(self, alist):
+        n = len(alist)
+        result = []  # Danh sách để lưu kết quả từ từng bước của thuật toán
+        for i in range(n-1):
+            # Biến để kiểm tra xem có hoán đổi nào được thực hiện trong vòng lặp này không
+            swapped = False
+            # Lặp qua từng cặp phần tử liên tiếp
+            for j in range(n-1-i):
+                # So sánh hai phần tử liên tiếp
+                if alist[j] > alist[j+1]:
+                    # Hoán đổi hai phần tử nếu thứ tự không đúng
+                    alist[j], alist[j+1] = alist[j+1], alist[j]
+                    # Đánh dấu là đã có sự hoán đổi được thực hiện
+                    swapped = True
+            # Nếu không có sự hoán đổi nào trong vòng lặp này, tức là danh sách đã sắp xếp
+            if not swapped:
+                break
+            # Lưu trạng thái của danh sách sau mỗi vòng lặp
+            result.append(alist[:])  
+        
+        # Hiển thị từng bước của thuật toán sắp xếp nổi bọt
+        for i, step in enumerate(result):
+          self.text_area_1.text += f"Vòng lặp {i+1}: {','.join(map(str, step))}\n"
+        self.text_box_output.text += f"Danh sách đã sắp xếp: {','.join(map(str, alist))}\n"
+          
+    # Any code you write here will run before the form opens.
+
+  def button_1_click(self, **event_args):
+    """This method is called when the button is clicked"""
+  
+    # Nhập danh sách từ người dùng và chuyển đổi thành danh sách các số nguyên
+    data = self.text_box_input.text.strip().split(',')
+    # Sắp xếp danh sách và hiển thị từng bước
+    self.bubble_sort_with_steps(data)
+
+  def button_2_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.text_box_input.text = ""
+    self.text_area_1.text = ""
+    self.text_box_output.text = ""
+
+
